@@ -1,1 +1,2 @@
 # word_counter
+This is a small programme that reads a text file, counts different words and displays the most frequent 5 words. It's also possible to use counter from the collections module and use most_common method to get the same result.

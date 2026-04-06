@@ -1,11 +1,17 @@
-def get_words():
+import string
+
+
+def get_words(file_name):
+    all_punctuation = string.punctuation
+    chars_to_remove = all_punctuation.replace("-", "").replace("'", "")
+    table = str.maketrans("", "", chars_to_remove)
     words = {}
     try:
-        with open("test.txt", "r") as f:
+        with open("file_name", "r") as f:
             for line in f:
-                clean_line = line.strip().lower().replace(".", "").replace("'", "").replace("!", "").split()              
+                clean_line = line.strip().lower().translate(table).split()
                 for word in clean_line:
-                    if word:  
+                    if word:
                         if word in words:
                             words[word] += 1
                         else:
@@ -13,6 +19,7 @@ def get_words():
         return words
     except FileNotFoundError:
         print("The file 'test.txt' was not found.")
+        return words
 
 def print_result(all_the_words, the_top_5):
     print("="*30)
@@ -24,7 +31,8 @@ def print_result(all_the_words, the_top_5):
     print("="*30)
 
 if __name__ == "__main__":
-    sorted_words = sorted(get_words().items(), key=lambda item: item[1], reverse=True)
+    file = input("Enter file name: ")
+    sorted_words = sorted(get_words(file).items(), key=lambda item: item[1], reverse=True)
     all_words = len(sorted_words)
     top_5 = sorted_words[:5]
     print_result(all_words, top_5)
